@@ -10,5 +10,9 @@
         <file>gaussianblur.frag</file>
         <file>gammacorrection.vert</file>
         <file>gammacorrection.frag</file>
+        <file>multisampling.vert</file>
+        <file>multisampling.frag</file>
+        <file>bloom.vert</file>
+        <file>bloom.frag</file>
     </qresource>
 </RCC>

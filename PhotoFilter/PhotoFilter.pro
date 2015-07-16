@@ -40,4 +40,8 @@ DISTFILES += \
     gaussianblur.frag \
     gaussianblur.vert \
     gammacorrection.frag \
-    gammacorrection.vert
+    gammacorrection.vert \
+    multisampling.frag \
+    multisampling.vert \
+    bloom.frag \
+    bloom.vert

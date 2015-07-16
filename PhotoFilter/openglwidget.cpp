@@ -23,6 +23,10 @@ OpenGLWidget::~OpenGLWidget(){
 void OpenGLWidget :: shaderChanged(int i)
 {
 	currentShader = i;
+	if(currentShader==5)
+		glEnable(GL_MULTISAMPLE);
+	else
+		glDisable(GL_MULTISAMPLE);
 	createShaders() ;
 	update();
 }
@@ -53,6 +57,7 @@ void OpenGLWidget::destroyVBOs(){
 }
 
 void OpenGLWidget::createShaders(){
+
 	destroyShaders();
 
 	QString vertexShaderFile [] = {
@@ -62,7 +67,7 @@ void OpenGLWidget::createShaders(){
 	   ":/bloom.vert",
 	   ":/gammacorrection.vert",
 	   ":/multisampling.vert",
-	   ":/defferedshading.vert",
+	   ":/deferredshading.vert",
 	   ":/billboard.vert"
 	};
 	QString fragmentShaderFile [] = {
@@ -72,7 +77,7 @@ void OpenGLWidget::createShaders(){
 		":/bloom.frag",
 		":/gammacorrection.frag",
 		":/multisampling.frag",
-		":/defferedshading.frag",
+		":/deferredshading.frag",
 		":/billboard.frag"
 	};
 
@@ -124,8 +129,6 @@ void OpenGLWidget::initializeGL(){
     this->createVBOs();
 	this->createShaders();
     initializeOpenGLFunctions();
-
-	glEnable(GL_MULTISAMPLE);
 
 }
 
@@ -220,7 +223,7 @@ void OpenGLWidget::paintImg(QImage *img){
 		shaderProgram->setUniformValue(uniName, weights[i] / sum);
 	}
 
-	float BlurSize = 20.0;
+	float BlurSize = 4.0;
 	shaderProgram->setUniformValue("blurSize",static_cast<GLfloat>(BlurSize));
 
 	float Gamma = 2.4;

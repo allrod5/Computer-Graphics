@@ -44,5 +44,5 @@ vec4 pass2()
 void main()
 {
 	FragColor = pass1();
-	FragColor *= pass2();
+	FragColor += pass2();
 }
