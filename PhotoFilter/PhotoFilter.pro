@@ -44,4 +44,6 @@ DISTFILES += \
     multisampling.frag \
     multisampling.vert \
     bloom.frag \
-    bloom.vert
+    bloom.vert \
+    fisheye.frag \
+    fisheye.vert

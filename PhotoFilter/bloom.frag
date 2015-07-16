@@ -6,6 +6,7 @@ uniform sampler2D BlurTex;
 uniform vec2 u_resolution;
 uniform float blurSize;
 uniform float LumThresh;
+uniform float dividerValue;
 
 out vec4 FragColor;
 
@@ -50,7 +51,14 @@ vec4 pass3()
 }
 void main()
 {
-	FragColor = pass1();
-	FragColor += pass2();
-	FragColor += pass3();
+	vec2 uv = v_texCoord.xy;
+	if (uv.x < dividerValue+0.001 && uv.x > dividerValue-0.001) {
+		FragColor = vec4(0.0);
+	} else if (uv.x < dividerValue) {
+		FragColor = pass1();
+		FragColor += pass2();
+		FragColor += pass3();
+	} else {
+		FragColor = texture2D(texture1, uv);
+	}
 }

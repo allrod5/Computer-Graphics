@@ -11,7 +11,7 @@ OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent)
     shaderProgram=NULL;
     imgOrig=NULL;
 	currentShader = 0;
-
+	dividerValue = 0.5;
 }
 
 OpenGLWidget::~OpenGLWidget(){
@@ -23,10 +23,6 @@ OpenGLWidget::~OpenGLWidget(){
 void OpenGLWidget :: shaderChanged(int i)
 {
 	currentShader = i;
-	if(currentShader==5)
-		glEnable(GL_MULTISAMPLE);
-	else
-		glDisable(GL_MULTISAMPLE);
 	createShaders() ;
 	update();
 }
@@ -66,8 +62,8 @@ void OpenGLWidget::createShaders(){
 	   ":/gaussianblur.vert",
 	   ":/bloom.vert",
 	   ":/gammacorrection.vert",
-	   ":/multisampling.vert",
-	   ":/deferredshading.vert",
+	   ":/toon.vert",
+	   ":/fisheye.vert",
 	   ":/billboard.vert"
 	};
 	QString fragmentShaderFile [] = {
@@ -76,8 +72,8 @@ void OpenGLWidget::createShaders(){
 		":/gaussianblur.frag",
 		":/bloom.frag",
 		":/gammacorrection.frag",
-		":/multisampling.frag",
-		":/deferredshading.frag",
+		":/toon.frag",
+		":/fisheye.frag",
 		":/billboard.frag"
 	};
 
@@ -158,6 +154,12 @@ void OpenGLWidget::slotRecvImage(QImage *img){
     update();
 }
 
+void OpenGLWidget::sliderChanged(int i) {
+	dividerValue = i/100.0;
+	createShaders();
+	update();
+}
+
 void OpenGLWidget::paintGL(){
 
     paintImg(imgOrig);
@@ -165,6 +167,13 @@ void OpenGLWidget::paintGL(){
 
 float OpenGLWidget::gauss(int x, float sigma2) {
 	return exp( -(x*x) / (2*sigma2) )/(sqrt(2*sigma2*3.141593));
+}
+
+void OpenGLWidget::mouseMoveEvent(QMouseEvent *event)
+{
+	mouse = event->globalPos();
+	createShaders();
+	update();
 }
 
 void OpenGLWidget::paintImg(QImage *img){
@@ -191,7 +200,10 @@ void OpenGLWidget::paintImg(QImage *img){
     glUniform1i(glGetUniformLocation(shaderProgram->programId(), "texture1"), 0);
 
 
+	shaderProgram->setUniformValue("mouse", mouse);
 
+	float lensSize = 0.2;
+	shaderProgram->setUniformValue("lensSize",static_cast<GLfloat>(lensSize));
 
     QVector2D *resolution= new QVector2D(img->width(), img->height());
     shaderProgram->setUniformValue("u_resolution",*resolution);
@@ -201,8 +213,7 @@ void OpenGLWidget::paintImg(QImage *img){
 
 	float BillboardGrid = 0.15;
 	shaderProgram->setUniformValue("grid",static_cast<GLfloat>(BillboardGrid));
-	float BillboardDivider = 1.0;
-	shaderProgram->setUniformValue("dividerValue",static_cast<GLfloat>(BillboardDivider));
+	shaderProgram->setUniformValue("dividerValue",static_cast<GLfloat>(dividerValue));
 	float BillboardX = 0.1;
 	shaderProgram->setUniformValue("step_x",static_cast<GLfloat>(BillboardX));
 	float BillboardY = 0.1;
@@ -228,6 +239,11 @@ void OpenGLWidget::paintImg(QImage *img){
 
 	float Gamma = 2.4;
 	shaderProgram->setUniformValue("Gamma",static_cast<GLfloat>(Gamma));
+
+	float magTol = 0.3;
+	shaderProgram->setUniformValue("magTol",static_cast<GLfloat>(magTol));
+	float quantize = 8.0;
+	shaderProgram->setUniformValue("quantize",static_cast<GLfloat>(quantize));
 
     //tansfer vertices to gpu===========================================
     QOpenGLBuffer *vboVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);

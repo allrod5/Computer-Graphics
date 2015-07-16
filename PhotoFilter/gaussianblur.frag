@@ -8,6 +8,7 @@ uniform float blurSize;
 out vec4 FragColor;
 uniform float PixOffset[5] = float[](0.0,1.0,2.0,3.0,4.0);
 uniform float Weight[5];
+uniform float dividerValue;
 
 vec4 pass1()
 {
@@ -43,6 +44,14 @@ vec4 pass2()
 
 void main()
 {
-	FragColor = pass1();
-	FragColor += pass2();
+	vec2 uv = v_texCoord.xy;
+	if (uv.x < dividerValue+0.001 && uv.x > dividerValue-0.001) {
+		FragColor = vec4(0.0);
+	} else if (uv.x < dividerValue) {
+		FragColor = pass1();
+		FragColor += pass2();
+	} else {
+		FragColor = texture2D(texture1, uv);
+	}
+
 }

@@ -25,7 +25,9 @@ void main()
 	float lf = ls * lb + 0.3;
 	res = lf * res;
 	vec3 col = mix(res, vec3(0.1, 0.1, 0.1), gr);
-	if (uv.x < dividerValue)
+	if (uv.x < dividerValue+0.001 && uv.x > dividerValue-0.001)
+		gl_FragColor = vec4(0.0);
+	else if (uv.x < dividerValue)
 		gl_FragColor = /*qt_Opacity **/ vec4(col, 1.0);
 	else
 		gl_FragColor = /*qt_Opacity **/ texture2D(texture1, uv);

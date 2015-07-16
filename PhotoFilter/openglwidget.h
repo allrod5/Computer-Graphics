@@ -29,6 +29,8 @@
 class OpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
+	void mouseMoveEvent(QMouseEvent *event);
+
 public:    
     explicit OpenGLWidget(QWidget *parent = 0);
     void destroyVBOs();
@@ -42,7 +44,8 @@ signals:
 public slots:
     void slotRecvImage(QImage *img);
     void slotSendImage();
-	void shaderChanged (int i);
+	void shaderChanged(int i);
+	void sliderChanged(int i);
 protected:
 
     void initializeGL();
@@ -59,6 +62,8 @@ private:
     QOpenGLBuffer *vboTextureCoordinate;
     QImage *imgOrig;
 	unsigned int currentShader;
+	float dividerValue;
+	QPointF mouse;
 };
 
 #endif // OPENGLWIDGET_H

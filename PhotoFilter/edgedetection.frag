@@ -3,6 +3,7 @@ in vec2 v_texCoord;
 uniform sampler2D texture1;
 uniform float EdgeThreshold;
 uniform vec2 u_resolution;
+uniform float dividerValue;
 
 float luma( vec3 color )
 {
@@ -33,5 +34,12 @@ vec4 highlightEdges()
 
 void main()
 {
-	gl_FragColor = highlightEdges();
+	vec2 uv = v_texCoord.xy;
+	if (uv.x < dividerValue+0.001 && uv.x > dividerValue-0.001) {
+		gl_FragColor = vec4(0.0);
+	} else if (uv.x < dividerValue) {
+		gl_FragColor = highlightEdges();
+	} else {
+		gl_FragColor = texture2D(texture1, uv);
+	}
 }

@@ -10,9 +10,11 @@
         <file>gaussianblur.frag</file>
         <file>gammacorrection.vert</file>
         <file>gammacorrection.frag</file>
-        <file>multisampling.vert</file>
-        <file>multisampling.frag</file>
+        <file>toon.vert</file>
+        <file>toon.frag</file>
         <file>bloom.vert</file>
         <file>bloom.frag</file>
+        <file>fisheye.vert</file>
+        <file>fisheye.frag</file>
     </qresource>
 </RCC>
