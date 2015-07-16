@@ -17,6 +17,7 @@ vec4 highlightEdges()
 	float s10 = luma(texture2D(texture1,v_texCoord + vec2(-dx,0.0) ).rgb);
 	float s20 = luma(texture2D(texture1,v_texCoord + vec2(-dx,-dy) ).rgb);
 	float s01 = luma(texture2D(texture1,v_texCoord + vec2(0.0,dy) ).rgb);
+	float s11 = luma(texture2D(texture1,v_texCoord + vec2(0.0,0.0) ).rgb);
 	float s21 = luma(texture2D(texture1,v_texCoord + vec2(0.0,-dy) ).rgb);
 	float s02 = luma(texture2D(texture1,v_texCoord + vec2(dx, dy) ).rgb);
 	float s12 = luma(texture2D(texture1,v_texCoord + vec2(dx, 0.0) ).rgb);

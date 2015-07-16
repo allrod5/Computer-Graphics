@@ -6,10 +6,6 @@ uniform sampler2D texture1;
 uniform lowp float qt_Opacity;
 varying vec2 v_texCoord;
 
-subroutine vec4 RenderPassType();
-subroutine uniform RenderPassType RenderPass;
-
-subroutine( RenderPassType )
 vec4 pass1()
 {
 	vec2 uv = v_texCoord.xy;
@@ -31,7 +27,6 @@ vec4 pass1()
 	return c;
 }
 
-subroutine( RenderPassType )
 vec4 pass2()
 {
 	vec2 uv = v_texCoord.xy;
@@ -54,5 +49,6 @@ vec4 pass2()
 
 void main()
 {
-	gl_FragColor = RenderPass();
+	gl_FragColor = pass1();
+	gl_FragColor += pass2();
 }

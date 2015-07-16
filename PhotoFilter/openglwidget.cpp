@@ -125,7 +125,7 @@ void OpenGLWidget::initializeGL(){
 	this->createShaders();
     initializeOpenGLFunctions();
 
-
+	glEnable(GL_MULTISAMPLE);
 
 }
 
@@ -188,8 +188,8 @@ void OpenGLWidget::paintImg(QImage *img){
     QVector2D *resolution= new QVector2D(img->width(), img->height());
     shaderProgram->setUniformValue("u_resolution",*resolution);
 
-	float EdgeThreshold = 2.0;
-	shaderProgram->setUniformValue("edgeThreshold",static_cast<GLfloat>(EdgeThreshold));
+	float EdgeThreshold = 0.1;
+	shaderProgram->setUniformValue("EdgeThreshold",static_cast<GLfloat>(EdgeThreshold));
 
 	float BillboardGrid = 0.15;
 	shaderProgram->setUniformValue("grid",static_cast<GLfloat>(BillboardGrid));
@@ -199,7 +199,7 @@ void OpenGLWidget::paintImg(QImage *img){
 	shaderProgram->setUniformValue("step_x",static_cast<GLfloat>(BillboardX));
 	float BillboardY = 0.1;
 	shaderProgram->setUniformValue("step_y",static_cast<GLfloat>(BillboardY));
-	float BillboardOpacity = 1.0;
+	float BillboardOpacity = 0.3;
 	shaderProgram->setUniformValue("qt_Opacity",static_cast<GLfloat>(BillboardOpacity));
 
 	/*char uniName[20];
@@ -214,7 +214,7 @@ void OpenGLWidget::paintImg(QImage *img){
 		snprintf(uniName, 20, "Weight[%d]", i);
 		shaderProgram->setUniformValue(uniName, weights[i] / sum);
 	}*/
-	float BlurSize = 2.0;
+	float BlurSize = 200000.0;
 	shaderProgram->setUniformValue("blurSize",static_cast<GLfloat>(BlurSize));
 
 	float Gamma = 2.4;
