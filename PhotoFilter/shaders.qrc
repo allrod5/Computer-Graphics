@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>original.frag</file>
+        <file>original.vert</file>
+        <file>edgedetection.vert</file>
+        <file>edgedetection.frag</file>
+        <file>billboard.vert</file>
+        <file>billboard.frag</file>
+        <file>gaussianblur.vert</file>
+        <file>gaussianblur.frag</file>
+        <file>gammacorrection.vert</file>
+        <file>gammacorrection.frag</file>
+    </qresource>
+</RCC>
