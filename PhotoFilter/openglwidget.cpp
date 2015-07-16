@@ -159,6 +159,11 @@ void OpenGLWidget::paintGL(){
 
     paintImg(imgOrig);
 }
+
+float OpenGLWidget::gauss(int x, float sigma2) {
+	return exp( -(x*x) / (2*sigma2) )/(sqrt(2*sigma2*3.141593));
+}
+
 void OpenGLWidget::paintImg(QImage *img){
     if(img==NULL) return;
     //create Vertices========================================
@@ -202,7 +207,7 @@ void OpenGLWidget::paintImg(QImage *img){
 	float BillboardOpacity = 0.3;
 	shaderProgram->setUniformValue("qt_Opacity",static_cast<GLfloat>(BillboardOpacity));
 
-	/*char uniName[20];
+	char uniName[20];
 	float weights[5], sum, sigma2 = 4.0f;
 	weights[0] = gauss(0,sigma2);
 	sum = weights[0];
@@ -213,8 +218,9 @@ void OpenGLWidget::paintImg(QImage *img){
 	for( int i = 0; i < 5; i++ ) {
 		snprintf(uniName, 20, "Weight[%d]", i);
 		shaderProgram->setUniformValue(uniName, weights[i] / sum);
-	}*/
-	float BlurSize = 200000.0;
+	}
+
+	float BlurSize = 20.0;
 	shaderProgram->setUniformValue("blurSize",static_cast<GLfloat>(BlurSize));
 
 	float Gamma = 2.4;

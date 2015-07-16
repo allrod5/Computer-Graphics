@@ -51,6 +51,7 @@ protected:
 
 private:
     void paintImg(QImage *img);
+	float gauss(int x, float sigma2);
     QOpenGLShader *vertexShader;
     QOpenGLShader *fragmentShader;
     QOpenGLShaderProgram *shaderProgram;    
