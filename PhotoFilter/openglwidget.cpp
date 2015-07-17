@@ -208,18 +208,17 @@ void OpenGLWidget::paintImg(QImage *img){
     QVector2D *resolution= new QVector2D(img->width(), img->height());
     shaderProgram->setUniformValue("u_resolution",*resolution);
 
-	float EdgeThreshold = 0.1;
-	shaderProgram->setUniformValue("EdgeThreshold",static_cast<GLfloat>(EdgeThreshold));
+	shaderProgram->setUniformValue("EdgeThreshold",static_cast<GLfloat>(edgeThreshold));
 
 	float BillboardGrid = 0.15;
-	shaderProgram->setUniformValue("grid",static_cast<GLfloat>(BillboardGrid));
+	shaderProgram->setUniformValue("grid",static_cast<GLfloat>(billboardGrid));
 	shaderProgram->setUniformValue("dividerValue",static_cast<GLfloat>(dividerValue));
 	float BillboardX = 0.1;
 	shaderProgram->setUniformValue("step_x",static_cast<GLfloat>(BillboardX));
 	float BillboardY = 0.1;
 	shaderProgram->setUniformValue("step_y",static_cast<GLfloat>(BillboardY));
 	float BillboardOpacity = 0.3;
-	shaderProgram->setUniformValue("qt_Opacity",static_cast<GLfloat>(BillboardOpacity));
+	//shaderProgram->setUniformValue("qt_Opacity",static_cast<GLfloat>(BillboardOpacity));
 
 	char uniName[20];
 	float weights[5], sum, sigma2 = 4.0f;
@@ -234,11 +233,11 @@ void OpenGLWidget::paintImg(QImage *img){
 		shaderProgram->setUniformValue(uniName, weights[i] / sum);
 	}
 
-	float BlurSize = 4.0;
-	shaderProgram->setUniformValue("blurSize",static_cast<GLfloat>(BlurSize));
+	shaderProgram->setUniformValue("blurSize",static_cast<GLfloat>(blurSize));
 
-	float Gamma = 2.4;
-	shaderProgram->setUniformValue("Gamma",static_cast<GLfloat>(Gamma));
+	shaderProgram->setUniformValue("LumThresh",static_cast<GLfloat>(luminosityThreshold));
+
+	shaderProgram->setUniformValue("Gamma",static_cast<GLfloat>(gamma));
 
 	float magTol = 0.3;
 	shaderProgram->setUniformValue("magTol",static_cast<GLfloat>(magTol));
@@ -276,3 +275,71 @@ void OpenGLWidget::paintImg(QImage *img){
     delete texture;
 
 }
+
+void OpenGLWidget::setEdgeThreshold(int value)
+{
+	edgeThreshold = value/1000.0;
+	createShaders();
+	update();
+}
+
+void OpenGLWidget::setBlurSize(int value)
+{
+	blurSize = value/10.0;
+	createShaders();
+	update();
+}
+
+void OpenGLWidget::setLuminosityThreshold(int value)
+{
+	luminosityThreshold = value/100.0;
+	createShaders();
+	update();
+}
+
+void OpenGLWidget::setBillboardGrid(int value)
+{
+	billboardGrid = value/100.0;
+	createShaders();
+	update();
+}
+
+void OpenGLWidget::setGamma(int value)
+{
+	gamma = value/33.3;
+	createShaders();
+	update();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

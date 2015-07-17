@@ -46,6 +46,11 @@ public slots:
     void slotSendImage();
 	void shaderChanged(int i);
 	void sliderChanged(int i);
+	void setEdgeThreshold(int value);
+	void setBlurSize(int value);
+	void setLuminosityThreshold(int value);
+	void setBillboardGrid(int value);
+	void setGamma(int value);
 protected:
 
     void initializeGL();
@@ -57,12 +62,17 @@ private:
 	float gauss(int x, float sigma2);
     QOpenGLShader *vertexShader;
     QOpenGLShader *fragmentShader;
-    QOpenGLShaderProgram *shaderProgram;    
+	QOpenGLShaderProgram *shaderProgram;
     QOpenGLBuffer *vboIndices;
     QOpenGLBuffer *vboTextureCoordinate;
     QImage *imgOrig;
 	unsigned int currentShader;
 	float dividerValue;
+	float edgeThreshold;
+	float blurSize;
+	float luminosityThreshold;
+	float billboardGrid;
+	float gamma;
 	QPointF mouse;
 };
 

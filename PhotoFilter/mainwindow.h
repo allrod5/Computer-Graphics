@@ -10,6 +10,13 @@
 #include <QGraphicsVideoItem>
 #include <QVideoWidget>
 #include <QColor>
+#include <QPushButton>
+#include <QGridLayout>
+#include <QFormLayout>
+#include <QLineEdit>
+#include <QFrame>
+#include <QMessageBox>
+#include <QSlider>
 #include "videosurface.h"
 namespace Ui {
 class MainWindow;
@@ -25,6 +32,7 @@ public:
 public slots:
     void slotOpenFile();
     void slotRecvImage(QImage *img);
+	void shaderChanged(int i);
 signals:
 void signalSendImage(QImage *img);
 private:

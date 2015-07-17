@@ -108,17 +108,17 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="widget" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="settingsLayout">
+          <item>
+           <layout class="QVBoxLayout" name="labelsLayout"/>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="slidersLayout"/>
+          </item>
+         </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="bottomLayout">
           <item>
            <widget class="QPushButton" name="buttonOpen">
             <property name="text">
@@ -202,6 +202,7 @@
     <slot>slotSendImage()</slot>
     <slot>shaderChanged(int)</slot>
     <slot>sliderChanged(int)</slot>
+    <slot>setEdgeThreshold(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -240,22 +241,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionSave</sender>
-   <signal>triggered()</signal>
-   <receiver>openGLWidget</receiver>
-   <slot>slotSendImage()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>214</x>
-     <y>377</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>buttonOpen</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
@@ -268,6 +253,22 @@
     <hint type="destinationlabel">
      <x>422</x>
      <y>369</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSave</sender>
+   <signal>triggered()</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>slotSendImage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>377</y>
     </hint>
    </hints>
   </connection>
@@ -288,22 +289,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>buttonExit</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>698</x>
-     <y>543</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>422</x>
-     <y>369</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>comboBox</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>openGLWidget</receiver>
@@ -316,6 +301,22 @@
     <hint type="destinationlabel">
      <x>422</x>
      <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonExit</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>698</x>
+     <y>543</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>422</x>
+     <y>369</y>
     </hint>
    </hints>
   </connection>
@@ -335,8 +336,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>comboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>shaderChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>422</x>
+     <y>652</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>422</x>
+     <y>369</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>slotOpenFile()</slot>
+  <slot>shaderChanged(int)</slot>
  </slots>
 </ui>

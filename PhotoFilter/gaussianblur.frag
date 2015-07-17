@@ -50,6 +50,7 @@ void main()
 	} else if (uv.x < dividerValue) {
 		FragColor = pass1();
 		FragColor += pass2();
+		FragColor /= 2;
 	} else {
 		FragColor = texture2D(texture1, uv);
 	}
