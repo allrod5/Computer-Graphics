@@ -26,11 +26,10 @@ void OpenGLWidget::initializeGL() {
 }
 
 void OpenGLWidget::resizeGL(int w,int h) {
-	/*glViewport(0, 0, w, h);
-	projectionMatrix.setToIdentity();
-	projectionMatrix.perspective(60.0, static_cast<qreal>(w)/static_cast<qreal>(h), 0.1, 20.0);
+	glViewport(0, 0, w, h);
+	scene->updateAspectRatio(w, h);
 	trackBall.resizeViewport(w, h);
-	update();*/
+	update();
 }
 
 void OpenGLWidget::paintGL() {

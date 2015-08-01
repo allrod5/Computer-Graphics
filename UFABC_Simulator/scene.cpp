@@ -25,3 +25,9 @@ void Scene::addObject(unsigned int id)
 	else
 		object[id].loadObject("./Objects/camel.off");
 }
+
+void Scene::updateAspectRatio(int w, int h)
+{
+	for(int i=0; i<numObjects; i++)
+		object[i].updateAspectRatio(w, h);
+}

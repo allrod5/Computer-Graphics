@@ -13,6 +13,7 @@ class Scene
 
 		void drawScene(Camera, Light, float, float, float, float, QQuaternion);
 		void addObject(unsigned int);
+		void updateAspectRatio(int, int);
 
 	private:
 		unsigned int numObjects;

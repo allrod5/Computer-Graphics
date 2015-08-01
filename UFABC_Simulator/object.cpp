@@ -181,6 +181,12 @@ void Object::drawObject(Camera camera, Light light, float zoom, float camX, floa
 	/*colorTextureLayer->release(1);*/
 }
 
+void Object::updateAspectRatio(int w, int h)
+{
+	projectionMatrix.setToIdentity();
+	projectionMatrix.perspective(60.0, static_cast<qreal>(w)/static_cast<qreal>(h), 0.1, 20.0);
+}
+
 void Object::createVBOs() {
 	destroyVBOs();
 	vboVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);

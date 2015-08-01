@@ -17,6 +17,7 @@ public:
 
 	void loadObject(QString);
 	void drawObject(Camera, Light, float, float, float, float, QQuaternion);
+	void updateAspectRatio(int, int);
 
 	void calculateNormals();
 	void genTexCoordsCylinder();
