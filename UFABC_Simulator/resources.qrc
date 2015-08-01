@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/shaders">
+        <file>gouraud_vshader.glsl</file>
+        <file>gouraud_fshader.glsl</file>
+        <file>flat_fshader.glsl</file>
+        <file>flat_vshader.glsl</file>
+        <file>phong_fshader.glsl</file>
+        <file>phong_vshader.glsl</file>
+        <file>cartoon_vshader.glsl</file>
+        <file>cartoon_fshader.glsl</file>
+        <file>blinn-phong_fshader.glsl</file>
+        <file>blinn-phong_vshader.glsl</file>
+        <file>texture_vshader.glsl</file>
+        <file>texture_fshader.glsl</file>
+    </qresource>
+    <qresource prefix="/textures">
+        <file>jellyfish.jpg</file>
+        <file>mountain.jpg</file>
+        <file>ufabc.png</file>
+    </qresource>
+</RCC>
