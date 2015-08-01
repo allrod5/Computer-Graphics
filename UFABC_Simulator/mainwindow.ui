@@ -35,16 +35,16 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QPushButton" name="leftButton">
+     <widget class="QPushButton" name="newGameButton">
       <property name="text">
-       <string>UFABC 1</string>
+       <string>New Game</string>
       </property>
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QPushButton" name="rightButton">
+     <widget class="QPushButton" name="exitButton">
       <property name="text">
-       <string>UFABC 2</string>
+       <string>Exit</string>
       </property>
      </widget>
     </item>
@@ -97,63 +97,17 @@
    <header>openglwidget.h</header>
    <slots>
     <signal>statusBarMessage(QString)</signal>
-    <slot>toggleBackgroundColor(bool)</slot>
-    <slot>showFileOpenDialog()</slot>
-    <slot>rotX(int)</slot>
-    <slot>rotY(int)</slot>
-    <slot>rotZ(int)</slot>
-    <slot>scale(int)</slot>
-    <slot>trlX(int)</slot>
-    <slot>trlY(int)</slot>
-    <slot>trlZ(int)</slot>
-    <slot>selectShader(int)</slot>
-    <slot>dialR(int)</slot>
-    <slot>dialG(int)</slot>
-    <slot>dialB(int)</slot>
-    <slot>addLUFABC()</slot>
-    <slot>addRUFABC()</slot>
+    <slot>newGame()</slot>
    </slots>
   </customwidget>
  </customwidgets>
  <resources/>
  <connections>
   <connection>
-   <sender>openGLWidget</sender>
-   <signal>statusBarMessage(QString)</signal>
-   <receiver>statusBar</receiver>
-   <slot>showMessage(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>325</x>
-     <y>223</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>326</x>
-     <y>478</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionOpen</sender>
-   <signal>triggered()</signal>
-   <receiver>openGLWidget</receiver>
-   <slot>showFileOpenDialog()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>325</x>
-     <y>223</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>leftButton</sender>
+   <sender>newGameButton</sender>
    <signal>clicked()</signal>
    <receiver>openGLWidget</receiver>
-   <slot>addLUFABC()</slot>
+   <slot>newGame()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>239</x>
@@ -166,10 +120,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>rightButton</sender>
+   <sender>exitButton</sender>
    <signal>clicked()</signal>
-   <receiver>openGLWidget</receiver>
-   <slot>addRUFABC()</slot>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>706</x>
@@ -177,7 +131,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>472</x>
-     <y>279</y>
+     <y>287</y>
     </hint>
    </hints>
   </connection>

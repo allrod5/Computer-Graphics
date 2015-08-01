@@ -18,6 +18,9 @@ public:
 	void loadObject(QString);
 	void drawObject(Camera, Light, float, float, float, float, QQuaternion);
 	void updateAspectRatio(int, int);
+	//void constraintObject();
+	void moveObject(float, float, float);
+	void moveObject(Mouse&, const QPointF&);
 
 	void calculateNormals();
 	void genTexCoordsCylinder();
@@ -29,6 +32,8 @@ public:
 	void destroyShaders();
 
 private:
+	void loadProperties(QString);
+
 	QOpenGLBuffer * vboVertices ;
 	QOpenGLBuffer * vboIndices ;
 	QOpenGLBuffer * vboColors ;
@@ -53,6 +58,10 @@ private:
 	unsigned int currentShader;
 
 	QVector2D * texCoords;
+
+	float relX;
+	float relY;
+	float relZ;
 };
 
 #endif // OBJECT_H

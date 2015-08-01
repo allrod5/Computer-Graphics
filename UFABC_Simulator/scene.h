@@ -12,11 +12,13 @@ class Scene
 		~Scene();
 
 		void drawScene(Camera, Light, float, float, float, float, QQuaternion);
-		void addObject(unsigned int);
+		void addObject(QString);
 		void updateAspectRatio(int, int);
+		Object& fetchObject(unsigned int);
 
 	private:
 		unsigned int numObjects;
+		unsigned int index;
 		Object *object;
 };
 

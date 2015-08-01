@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     light.cpp \
     material.cpp \
     object.cpp \
-    scene.cpp
+    scene.cpp \
+    mouse.cpp
 
 HEADERS  += mainwindow.h \
     openglwidget.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     light.h \
     material.h \
     object.h \
-    scene.h
+    scene.h \
+    mouse.h
 
 FORMS    += mainwindow.ui
 

@@ -2,7 +2,8 @@
 
 Scene::Scene()
 {
-	numObjects = 2;
+	numObjects = 100;
+	index = 0;
 	object = new Object[numObjects];
 }
 
@@ -13,21 +14,24 @@ Scene::~Scene()
 
 void Scene::drawScene(Camera camera, Light light, float zoom, float camX, float camY, float camZ, QQuaternion rotation)
 {
-	for(int i=0; i<numObjects; i++)
+	for(unsigned int i=0; i<index; i++)
 		object[i].drawObject(camera, light, zoom, camX, camY, camZ, rotation);
 }
 
-void Scene::addObject(unsigned int id)
+void Scene::addObject(QString name)
 {
-	//object[id] = new Object;
-	if(id==0)
-		object[id].loadObject("./Objects/ufabc.off");
-	else
-		object[id].loadObject("./Objects/camel.off");
+	Object *obj = &object[index];
+	obj->loadObject(name);
+	index++;
 }
 
 void Scene::updateAspectRatio(int w, int h)
 {
-	for(int i=0; i<numObjects; i++)
+	for(unsigned int i=0; i<numObjects; i++)
 		object[i].updateAspectRatio(w, h);
+}
+
+Object& Scene::fetchObject(unsigned int id)
+{
+	return object[id];
 }

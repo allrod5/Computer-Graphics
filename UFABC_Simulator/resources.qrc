@@ -17,5 +17,6 @@
         <file>jellyfish.jpg</file>
         <file>mountain.jpg</file>
         <file>ufabc.png</file>
+        <file>image.png</file>
     </qresource>
 </RCC>

@@ -28,6 +28,6 @@ void main () {
     if ( gl_FrontFacing ) {
         frag_color = vec4 ( Phong ( fN ). xyz ,1) ;
     } else {
-        frag_color = mix(vec4(Phong(-fN).xyz, 1) , vec4(0.0 ,1.0 ,0.0 ,1.0), 0.7);
+		frag_color = mix(vec4(Phong(-fN).xyz, 1) , vec4(0.0 ,.75 ,0.0 ,1.0), 0.7);
     }
 }

@@ -34,8 +34,8 @@ public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     OpenGLWidget *openGLWidget;
-    QPushButton *leftButton;
-    QPushButton *rightButton;
+    QPushButton *newGameButton;
+    QPushButton *exitButton;
     QMenuBar *menuBar;
     QMenu *menuFiles;
     QToolBar *mainToolBar;
@@ -69,15 +69,15 @@ public:
 
         gridLayout->addWidget(openGLWidget, 0, 0, 1, 2);
 
-        leftButton = new QPushButton(centralWidget);
-        leftButton->setObjectName(QStringLiteral("leftButton"));
+        newGameButton = new QPushButton(centralWidget);
+        newGameButton->setObjectName(QStringLiteral("newGameButton"));
 
-        gridLayout->addWidget(leftButton, 1, 0, 1, 1);
+        gridLayout->addWidget(newGameButton, 1, 0, 1, 1);
 
-        rightButton = new QPushButton(centralWidget);
-        rightButton->setObjectName(QStringLiteral("rightButton"));
+        exitButton = new QPushButton(centralWidget);
+        exitButton->setObjectName(QStringLiteral("exitButton"));
 
-        gridLayout->addWidget(rightButton, 1, 1, 1, 1);
+        gridLayout->addWidget(exitButton, 1, 1, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -99,10 +99,8 @@ public:
         menuFiles->addAction(actionExit);
 
         retranslateUi(MainWindow);
-        QObject::connect(openGLWidget, SIGNAL(statusBarMessage(QString)), statusBar, SLOT(showMessage(QString)));
-        QObject::connect(actionOpen, SIGNAL(triggered()), openGLWidget, SLOT(showFileOpenDialog()));
-        QObject::connect(leftButton, SIGNAL(clicked()), openGLWidget, SLOT(addLUFABC()));
-        QObject::connect(rightButton, SIGNAL(clicked()), openGLWidget, SLOT(addRUFABC()));
+        QObject::connect(newGameButton, SIGNAL(clicked()), openGLWidget, SLOT(newGame()));
+        QObject::connect(exitButton, SIGNAL(clicked()), MainWindow, SLOT(close()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -112,8 +110,8 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         actionOpen->setText(QApplication::translate("MainWindow", "Open", 0));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
-        leftButton->setText(QApplication::translate("MainWindow", "UFABC 1", 0));
-        rightButton->setText(QApplication::translate("MainWindow", "UFABC 2", 0));
+        newGameButton->setText(QApplication::translate("MainWindow", "New Game", 0));
+        exitButton->setText(QApplication::translate("MainWindow", "Exit", 0));
         menuFiles->setTitle(QApplication::translate("MainWindow", "File", 0));
     } // retranslateUi
 

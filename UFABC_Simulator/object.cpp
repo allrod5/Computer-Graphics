@@ -15,8 +15,10 @@ Object::Object()
 	fragmentShader = NULL;
 	colorTexture = NULL;
 
-	currentShader = 0;
-	image = QImage(":/textures/jellyfish.jpg");
+	currentShader = 4;
+	image = QImage(":/textures/image.png");
+
+	relX = relY = relZ = 0.0;
 }
 
 Object::~Object()
@@ -25,12 +27,14 @@ Object::~Object()
 	destroyShaders();
 }
 
-void Object::loadObject(QString fileName)
+void Object::loadObject(QString objectName)
 {
+	loadProperties(objectName);
+
 	std::ifstream stream ;
-	stream.open(fileName.toUtf8(), std::ifstream::in);
+	stream.open(("./Objects/Models/"+objectName+".off").toUtf8(), std::ifstream::in);
 	if(! stream.is_open()) {
-		qWarning("Cannot open file.");
+		qWarning("Failed to open object file.");
 		return ;
 	}
 	std::string line ;
@@ -43,25 +47,27 @@ void Object::loadObject(QString fileName)
 	indices = new unsigned int[numFaces * 3];
 
 	if(numVertices > 0) {
-		double minLim = std::numeric_limits < double >::min();
+		/*double minLim = std::numeric_limits < double >::min();
 		double maxLim = std::numeric_limits < double >::max();
 		QVector4D max(minLim, minLim, minLim, 1.0);
-		QVector4D min(maxLim, maxLim, maxLim, 1.0);
+		QVector4D min(maxLim, maxLim, maxLim, 1.0);*/
 
 		for(unsigned int i = 0; i < numVertices ; i ++) {
 			double x, y, z;
 			stream >> x >> y >> z;
-			max.setX(qMax < double >(max .x(), x));
-			max.setY(qMax < double >(max .y(), y));
+			/*max.setX(qMax < double >(max .x(), x));
+			max.setY(qMin < double >(min .y(), y));
 			max.setZ(qMax < double >(max .z(), z));
 			min.setX(qMin < double >(min .x(), x));
 			min.setY(qMin < double >(min .y(), y));
-			min.setZ(qMin < double >(min .z(), z));
+			min.setZ(qMin < double >(min .z(), z));*/
 
 			vertices[i] = QVector4D(x, y, z, 1.0);
 		}
-		midPoint = ((min + max)* 0.5).toVector3D();
-		invDiag = 1 /(max - min).length();
+		/*QVector3D aux = ((min + max)* 0.5).toVector3D();
+		std::cerr << "midPoint = (" << aux.x() << "," << aux.y() << "," << aux.z() << ")\n";*/
+		/*invDiag = 1 /(max - min).length();
+		std::cerr << "invDiag = " << invDiag << "\n";*/
 	}
 	for(unsigned int i = 0; i < numFaces ; i ++) {
 		unsigned int a, b, c;
@@ -78,6 +84,48 @@ void Object::loadObject(QString fileName)
 	genTexCoordsCylinder();
 	createVBOs();
 	createShaders();
+}
+
+void Object::loadProperties(QString objectName)
+{
+	std::ifstream stream ;
+	stream.open(("./Objects/Properties/"+objectName+".prop").toUtf8(), std::ifstream::in);
+	if(! stream.is_open()) {
+		qWarning("Failed opening object properties file.");
+		return ;
+	}
+	std::string line ;
+	stream >> line;
+
+	while(stream >> line) {
+		if(line=="center") {
+			double a, b, c;
+			stream >> a >> b >> c;
+			midPoint = QVector3D(a, b, c);
+		} else if(line=="invDiag") {
+			stream >> invDiag;
+		} else if(line=="shader") {
+			stream >> currentShader;
+		} else if(line=="material") {
+			double a, b, c, d;
+			while(stream >> line) {
+				if(line[0]!='.')
+					break;
+				if(line==".ambient") {
+					stream >> a >> b >> c >> d;
+					material.ambient = QVector4D (a, b, c, d);
+				} else if(line==".diffuse") {
+					stream >> a >> b >> c >> d;
+					material.diffuse = QVector4D (a, b, c, d);
+				} else if(line==".specular") {
+					stream >> a >> b >> c >> d;
+					material.specular = QVector4D (a, b, c, d);
+				} else if(line==".shininess") {
+					stream >> material.shininess;
+				}
+			}
+		}
+	}
 }
 
 void Object::calculateNormals()
@@ -106,12 +154,12 @@ void Object::genTexCoordsCylinder()
 	float fmax = std::numeric_limits<float>::max();
 	float minz = fmax ;
 	float maxz = - fmax ;
-	for(int i =0; i < numVertices ; ++ i) {
+	for(unsigned int i=0; i < numVertices ; ++ i) {
 		if(vertices[i]. z()< minz)minz = vertices[i]. z();
 		if(vertices[i]. z()> maxz)maxz = vertices[i]. z();
 	}
 	texCoords = new QVector2D[numVertices];
-	for(int i =0; i < numVertices ; ++ i) { // https :// en . wikipedia . org / wiki / Atan2
+	for(unsigned int i=0; i < numVertices ; ++ i) { // https :// en . wikipedia . org / wiki / Atan2
 		float s =(atan2(vertices[i].y(), vertices[i].x())+M_PI)/(2*M_PI);
 		float t = 1.0f -(vertices[i].z()- minz)/(maxz - minz);
 		texCoords[i] = QVector2D(s,t);
@@ -124,12 +172,12 @@ void Object::drawObject(Camera camera, Light light, float zoom, float camX, floa
 		return;
 
 	modelView.setToIdentity();
-	modelView.lookAt(camera.eye, camera .at, camera.up);
-	modelView.translate(0, 0, zoom);
-	modelView.translate(camX, camY, camZ);
-	modelView.rotate(rotation);
+	modelView.lookAt(rotation.rotatedVector(camera.eye)/zoom, camera.at, camera.up);
+	//modelView.translate(0, 0, zoom);
+	//modelView.translate(camX+relX, camY+relY, /*camZ+relZ*/ 0);
+	//modelView.rotate(rotation);
 	modelView.scale(invDiag, invDiag, invDiag);
-	modelView.translate(- midPoint);
+	modelView.translate(-midPoint);
 	shaderProgram->bind();
 	QVector4D ambientProduct = light.ambient * material.ambient;
 	QVector4D diffuseProduct = light.diffuse * material.diffuse;
@@ -185,6 +233,20 @@ void Object::updateAspectRatio(int w, int h)
 {
 	projectionMatrix.setToIdentity();
 	projectionMatrix.perspective(60.0, static_cast<qreal>(w)/static_cast<qreal>(h), 0.1, 20.0);
+}
+
+void Object::moveObject(float dx, float dy, float dz)
+{
+	relX += dx;
+	relY += dy;
+	relZ += dz;
+}
+
+void Object::moveObject(Mouse &mouse, const QPointF &p)
+{
+	QVector3D vec = mouse.mousePosTo3D(p);
+	relX += vec.x();
+	relZ += vec.y();
 }
 
 void Object::createVBOs() {

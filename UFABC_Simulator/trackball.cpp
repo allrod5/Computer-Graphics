@@ -1,12 +1,12 @@
 #include "trackball.h"
-TrackBall::TrackBall() : rad2deg(180.0 /3.1415)
+TrackBall::TrackBall()
 {
-    velocity = 0.0;
+	/*velocity = 0.0;
     trackingMouse = false;
-    lastTime = QTime::currentTime();
+	lastTime = QTime::currentTime();*/
 }
 
-void TrackBall::mouseMove(const QPointF &p)
+/*void TrackBall::mouseMove(const QPointF &p)
 {
     if (!trackingMouse)
         return;
@@ -55,21 +55,27 @@ void TrackBall::resizeViewport(int width, int height)
 {
     viewportWidth = static_cast<double>(width);
     viewportHeight = static_cast<double>(height);
-}
+}*/
 
-QQuaternion TrackBall::getRotation()
+void TrackBall::updateRotation(Mouse &mouse)
 {
-    if (trackingMouse)
-        return rotation;
+	if (mouse.trackingMouse)
+		return;
 
     QTime currentTime = QTime::currentTime();
-    double angle = velocity * lastTime.msecsTo(currentTime);
-    return QQuaternion::fromAxisAndAngle(axis, angle) * rotation;
+	mouse.angle = mouse.velocity * mouse.lastTime.msecsTo(currentTime);
+	rotation = QQuaternion::fromAxisAndAngle(mouse.axis, mouse.angle) * rotation;
+	return;
 }
 
-QVector3D TrackBall::mousePosTo3D(const QPointF &p)
+/*QVector3D TrackBall::mousePosTo3D(const QPointF &p)
 {
     return QVector3D(2.0 * p.x() / viewportWidth - 1.0,
                      1.0 - 2.0 * p.y() / viewportHeight,
                      0.0);
+}*/
+
+void TrackBall::mouseMove(Mouse &mouse)
+{
+	rotation = QQuaternion::fromAxisAndAngle(mouse.axis, mouse.angle) * rotation;
 }
