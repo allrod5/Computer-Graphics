@@ -44,8 +44,8 @@ void OpenGLWidget::animate() {
 
 void OpenGLWidget::mouseMoveEvent(QMouseEvent * event) {
 	if(mouse.mouseMove(event->localPos())) {
-		trackBall.mouseMove(mouse);
-		scene->fetchObject(currentObject).mouseMove(mouse);
+		//trackBall.mouseMove(mouse);
+		scene->fetchObject(currentObject).mouseMove(mouse, event->localPos());
 	}
 }
 
@@ -53,14 +53,19 @@ void OpenGLWidget::mousePressEvent(QMouseEvent * event) {
 	mouse.mousePress(event->localPos());
 	if(event->button()& Qt::LeftButton){
 		trackBall.updateRotation(mouse);
+		scene->fetchObject(currentObject).mousePress();
 	} else if(event->button()& Qt::RightButton) {
 		currentObject = scene->addObject("ufabc_blocoA");
 		mouse.persistence = true;
 		mouse.trackingMouse = true;
 		this->setMouseTracking(true);
+		scene->fetchObject(currentObject).mouseMove(mouse, event->localPos());
 	} else if(event->button()& Qt::MiddleButton) {
-		scene->fetchObject(currentObject).updateOrientation(mouse);
-		/*scene->addObject("pig");*/
+		//scene->fetchObject(currentObject).updateOrientation(mouse);
+		currentObject = scene->addObject("pig");
+		mouse.persistence = true;
+		mouse.trackingMouse = true;
+		this->setMouseTracking(true);
 		/*scene->fetchObject(currentObject).moveObject(mouse, event->localPos());*/
 	}
 
@@ -76,14 +81,16 @@ void OpenGLWidget::wheelEvent(QWheelEvent * event) {
 
 void OpenGLWidget::mouseReleaseEvent(QMouseEvent * event) {
 	mouse.mouseRelease(event->localPos());
-	if(event->button()== Qt::LeftButton)
+	if(event->button()== Qt::LeftButton) {
 		trackBall.updateRotation(mouse);
-	else if(event->button()== Qt::MiddleButton)
+		scene->fetchObject(currentObject).mousePress();
+	} else if(event->button()== Qt::MiddleButton) {
 		scene->fetchObject(currentObject).updateOrientation(mouse);
+	}
 }
 
 void OpenGLWidget::keyPressEvent(QKeyEvent * event) {
-	if(event->text()=="w")
+	/*if(event->text()=="w")
 		camZ += 0.01;
 	else if(event->text()=="s")
 		camZ -= 0.01;
@@ -124,12 +131,12 @@ void OpenGLWidget::keyPressEvent(QKeyEvent * event) {
 	else if(event->text()=="8")
 		currentObject = 9;
 	else if(event->text()=="9")
-		currentObject = 10;
+		currentObject = 10;*/
 
 }
 
 void OpenGLWidget::newGame()
 {
-	currentObject = scene->addObject("terrain");
-	currentObject = scene->addObject("dome");
+	scene->addObject("dome");
+	scene->addObject("terrain");
 }

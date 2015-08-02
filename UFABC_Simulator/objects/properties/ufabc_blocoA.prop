@@ -4,7 +4,7 @@ center 0.46403 -0.579873 0.297156
 
 invDiag 0.1
 
-shader 1
+shader 4
 
 material
 .ambient 1.0 1.0 1.0 1.0

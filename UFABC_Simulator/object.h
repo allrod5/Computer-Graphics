@@ -1,7 +1,21 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "openglwidget.h"
+//#include "openglwidget.h"
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
+#include <QOpenGLBuffer>
+#include <QVector4D>
+#include <QVector3D>
+#include <QOpenGLShader>
+
+#include <QtOpenGL>
+
+#include "camera.h"
+#include "light.h"
+#include "material.h"
+#include "mouse.h"
+
 #include "QFile"
 
 class Object
@@ -25,7 +39,9 @@ public:
 	void rotateObject(float);
 	void rotateObject(QQuaternion&);
 	void updateOrientation(Mouse&);
-	void mouseMove(Mouse&);
+	void mouseMove(Mouse&, const QPointF&);
+
+	void mousePress();
 
 	void calculateNormals();
 	void genTexCoordsCylinder();
@@ -69,6 +85,8 @@ private:
 	float relZ;
 
 	QQuaternion orientation;
+	bool positionLock;
+	bool orientationLock;
 };
 
 #endif // OBJECT_H

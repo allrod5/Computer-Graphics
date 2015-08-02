@@ -3,8 +3,6 @@
 
 #include "object.h"
 
-class Object;
-
 class Scene
 {
 	public:

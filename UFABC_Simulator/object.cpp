@@ -19,6 +19,9 @@ Object::Object()
 	image = QImage(":/textures/densegrid.jpg");
 
 	relX = relY = relZ = 0.0;
+
+	positionLock = false;
+	orientationLock = false;
 }
 
 Object::~Object()
@@ -245,6 +248,8 @@ void Object::updateAspectRatio(int w, int h)
 
 void Object::moveObject(float dx, float dy, float dz)
 {
+	if(positionLock)
+		return;
 	relX += dx;
 	//relY += dy;
 	relZ += dz;
@@ -252,24 +257,30 @@ void Object::moveObject(float dx, float dy, float dz)
 
 void Object::moveObject(Mouse &mouse, const QPointF &p)
 {
+	if(positionLock)
+		return;
 	QVector3D vec = mouse.mousePosTo3D(p);
-	relX += vec.x();
-	relZ += vec.y();
+	relX = -vec.y();
+	relZ = -vec.x();
 }
 
 void Object::rotateObject(float angle)
 {
+	if(orientationLock)
+		return;
 	orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), angle) * orientation;
 }
 
 void Object::rotateObject(QQuaternion &rotation)
 {
+	if(orientationLock)
+		return;
 	orientation = rotation * orientation;
 }
 
 void Object::updateOrientation(Mouse &mouse)
 {
-	if (mouse.trackingMouse)
+	if (orientationLock || mouse.trackingMouse)
 		return;
 
 	QTime currentTime = QTime::currentTime();
@@ -278,9 +289,21 @@ void Object::updateOrientation(Mouse &mouse)
 	return;
 }
 
-void Object::mouseMove(Mouse &mouse)
+void Object::mouseMove(Mouse &mouse, const QPointF &p)
 {
-	orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), mouse.angle) * orientation;
+	if(!positionLock) {
+		moveObject(mouse, p);
+	} else if (!orientationLock) {
+		QQuaternion rotation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), mouse.angle);
+		rotateObject(rotation);
+	}
+}
+
+void Object::mousePress() {
+	if(!positionLock)
+		positionLock = true;
+	else if(!orientationLock)
+		orientationLock = true;
 }
 
 void Object::createVBOs() {

@@ -16,11 +16,9 @@
 #include "camera.h"
 #include "light.h"
 #include "material.h"
-#include "object.h"
 #include "scene.h"
+#include "object.h"
 #include "mouse.h"
-
-class Scene;
 
 class OpenGLWidget : public QOpenGLWidget , protected
 QOpenGLFunctions
