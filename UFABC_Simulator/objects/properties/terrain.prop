@@ -1,0 +1,13 @@
+PROPERTIES
+
+center -0.509137 0.397538 0.235829
+
+invDiag 0.5
+
+shader 4
+
+material
+.ambient 1.0 1.0 1.0 1.0
+.diffuse 0.7 0.7 0.7 1.0
+.specular 0.1 0.1 0.1 1.0
+.shininess 200.0

@@ -590,6 +590,15 @@ qrc_resources.cpp: resources.qrc \
 		blinn-phong_vshader.glsl \
 		texture_fshader.glsl \
 		blinn-phong_fshader.glsl \
+		objects/models/ufabc_blocoA.off \
+		objects/models/dome.off \
+		objects/models/pig.off \
+		objects/models/terrain.off \
+		objects/models/ufabc_blocoB.off \
+		objects/properties/pig.prop \
+		objects/properties/terrain.prop \
+		objects/properties/dome.prop \
+		objects/properties/ufabc_blocoA.prop \
 		ufabc.png \
 		mountain.jpg \
 		terrain.jpg \
@@ -1187,6 +1196,7 @@ moc_openglwidget.cpp: /home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QOpenGL
 		object.h \
 		openglwidget.h \
 		scene.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/QFile \
 		openglwidget.h
 	/home/rodrigo/Qt5.5.0/5.5/gcc_64/bin/moc $(DEFINES) -I/home/rodrigo/Qt5.5.0/5.5/gcc_64/mkspecs/linux-g++ -I'/home/rodrigo/Documentos/UFABC/2015 - 2º quad/Computação Gráfica/Trabalho Final/UFABC_Simulator' -I/home/rodrigo/Qt5.5.0/5.5/gcc_64/include -I/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtOpenGL -I/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets -I/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui -I/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore openglwidget.h -o moc_openglwidget.cpp
 
@@ -1673,7 +1683,8 @@ ui_mainwindow.h: mainwindow.ui \
 		material.h \
 		object.h \
 		openglwidget.h \
-		scene.h
+		scene.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/QFile
 	/home/rodrigo/Qt5.5.0/5.5/gcc_64/bin/uic mainwindow.ui -o ui_mainwindow.h
 
 compiler_yacc_decl_make_all:
@@ -1945,17 +1956,9 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qstyle.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtabbar.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qrubberband.h \
-		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QMenu \
-		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qmenu.h \
-		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QMenuBar \
-		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qmenubar.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QPushButton \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QStatusBar \
-		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qstatusbar.h \
-		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QToolBar \
-		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtoolbar.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QWidget \
 		openglwidget.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QOpenGLWidget \
@@ -2260,6 +2263,8 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qlcdnumber.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qmdiarea.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qmdisubwindow.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qmenu.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qmenubar.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qplaintextedit.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtextedit.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qprogressbar.h \
@@ -2270,7 +2275,9 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qsplashscreen.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qsplitter.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qstackedwidget.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qstatusbar.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtextbrowser.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtoolbar.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtoolbox.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtoolbutton.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtwidgetsversion.h \
@@ -2292,6 +2299,7 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		light.h \
 		material.h \
 		object.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/QFile \
 		scene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
@@ -2771,6 +2779,7 @@ openglwidget.o: openglwidget.cpp openglwidget.h \
 		light.h \
 		material.h \
 		object.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/QFile \
 		scene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o openglwidget.o openglwidget.cpp
 
@@ -2849,7 +2858,43 @@ trackball.o: trackball.cpp trackball.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qvector4d.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/QTime \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qdatetime.h \
-		mouse.h
+		mouse.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QWidget \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qmargins.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qrect.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qsize.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpalette.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qcolor.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qrgb.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qbrush.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qmatrix.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpolygon.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qregion.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qline.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qtransform.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qimage.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpixmap.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qfont.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qcursor.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qevent.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qurl.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qurlquery.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qfile.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qvector2d.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qtouchdevice.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o trackball.o trackball.cpp
 
 camera.o: camera.cpp camera.h \
@@ -3512,7 +3557,8 @@ object.o: object.cpp object.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/QKeyEvent \
 		light.h \
 		material.h \
-		scene.h
+		scene.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o object.o object.cpp
 
 scene.o: scene.cpp scene.h \
@@ -3991,7 +4037,8 @@ scene.o: scene.cpp scene.h \
 		camera.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/QKeyEvent \
 		light.h \
-		material.h
+		material.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o scene.o scene.cpp
 
 mouse.o: mouse.cpp mouse.h \
@@ -4068,7 +4115,43 @@ mouse.o: mouse.cpp mouse.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qdatastream.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qvector4d.h \
 		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/QTime \
-		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qdatetime.h
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qdatetime.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QWidget \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qmargins.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qrect.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qsize.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpalette.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qcolor.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qrgb.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qbrush.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qmatrix.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpolygon.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qregion.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qline.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qtransform.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qimage.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qpixmap.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qfont.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qcursor.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qevent.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qurl.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qurlquery.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qfile.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qvector2d.h \
+		/home/rodrigo/Qt5.5.0/5.5/gcc_64/include/QtGui/qtouchdevice.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mouse.o mouse.cpp
 
 qrc_resources.o: qrc_resources.cpp 

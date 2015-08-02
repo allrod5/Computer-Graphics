@@ -2,6 +2,7 @@
 #define OBJECT_H
 
 #include "openglwidget.h"
+#include "QFile"
 
 class Object
 {

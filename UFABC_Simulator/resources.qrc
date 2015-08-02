@@ -22,4 +22,15 @@
         <file>terrain.jpg</file>
         <file>densegrid.jpg</file>
     </qresource>
+    <qresource prefix="/">
+        <file>objects/models/dome.off</file>
+        <file>objects/models/ufabc_blocoB.off</file>
+        <file>objects/models/ufabc_blocoA.off</file>
+        <file>objects/models/terrain.off</file>
+        <file>objects/models/pig.off</file>
+        <file>objects/properties/ufabc_blocoA.prop</file>
+        <file>objects/properties/pig.prop</file>
+        <file>objects/properties/terrain.prop</file>
+        <file>objects/properties/dome.prop</file>
+    </qresource>
 </RCC>

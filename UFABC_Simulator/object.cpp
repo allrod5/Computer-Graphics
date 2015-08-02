@@ -31,13 +31,16 @@ void Object::loadObject(QString objectName)
 {
 	loadProperties(objectName);
 
-	std::ifstream stream ;
-	stream.open(("./Objects/Models/"+objectName+".off").toUtf8(), std::ifstream::in);
-	if(! stream.is_open()) {
+	QFile file(":/objects/models/"+objectName+".off");
+
+	if(!file.open(QIODevice::ReadOnly)) {
 		qWarning("Failed to open object file.");
 		return ;
 	}
-	std::string line ;
+
+	QTextStream stream(&file);
+
+	QString line ;
 	stream >> line ;
 	stream >> numVertices >> numFaces >> line ;
 
@@ -79,7 +82,6 @@ void Object::loadObject(QString objectName)
 
 	//emit statusBarMessage(QString("Samples %1, Faces %2,Zoom %3").arg(numVertices).arg(numFaces).arg(zoom));
 
-	stream.close();
 	calculateNormals();
 	genTexCoordsCylinder();
 	createVBOs();
@@ -88,16 +90,21 @@ void Object::loadObject(QString objectName)
 
 void Object::loadProperties(QString objectName)
 {
-	std::ifstream stream ;
-	stream.open(("./Objects/Properties/"+objectName+".prop").toUtf8(), std::ifstream::in);
-	if(! stream.is_open()) {
+	QFile file(":/objects/properties/"+objectName+".prop");
+
+	if(!file.open(QIODevice::ReadOnly)) {
 		qWarning("Failed opening object properties file.");
 		return ;
 	}
-	std::string line ;
+
+	QTextStream stream(&file);
+
+	QString line ;
+
 	stream >> line;
 
-	while(stream >> line) {
+	while(!stream.atEnd()) {
+		stream >> line;
 		if(line=="center") {
 			double a, b, c;
 			stream >> a >> b >> c;
@@ -108,7 +115,8 @@ void Object::loadProperties(QString objectName)
 			stream >> currentShader;
 		} else if(line=="material") {
 			double a, b, c, d;
-			while(stream >> line) {
+			while(!stream.atEnd()) {
+				stream >> line;
 				if(line[0]!='.')
 					break;
 				if(line==".ambient") {

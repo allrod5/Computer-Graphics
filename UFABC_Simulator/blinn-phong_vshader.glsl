@@ -1,4 +1,4 @@
-# version 330
+#version 330
 in vec4 vPosition ;
 in vec3 vNormal ;
 uniform mat4 modelView ;
