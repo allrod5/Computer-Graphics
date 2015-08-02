@@ -4,6 +4,7 @@ Mouse::Mouse() : rad2deg(180.0 /3.1415)
 {
 	velocity = 0.0;
 	trackingMouse = false;
+	persistence = false;
 	lastTime = QTime::currentTime();
 }
 
@@ -52,7 +53,8 @@ void Mouse::mousePress(const QPointF &p)
 void Mouse::mouseRelease(const QPointF &p)
 {
 	mouseMove(p);
-	trackingMouse = false;
+	if(!persistence)
+		trackingMouse = false;
 }
 
 void Mouse::resizeViewport(int width, int height)

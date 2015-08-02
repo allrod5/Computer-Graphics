@@ -16,11 +16,7 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QStatusBar>
-#include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 #include "openglwidget.h"
 
@@ -36,10 +32,6 @@ public:
     OpenGLWidget *openGLWidget;
     QPushButton *newGameButton;
     QPushButton *exitButton;
-    QMenuBar *menuBar;
-    QMenu *menuFiles;
-    QToolBar *mainToolBar;
-    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -80,23 +72,6 @@ public:
         gridLayout->addWidget(exitButton, 1, 1, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(MainWindow);
-        menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 946, 25));
-        menuFiles = new QMenu(menuBar);
-        menuFiles->setObjectName(QStringLiteral("menuFiles"));
-        MainWindow->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        statusBar = new QStatusBar(MainWindow);
-        statusBar->setObjectName(QStringLiteral("statusBar"));
-        MainWindow->setStatusBar(statusBar);
-
-        menuBar->addAction(menuFiles->menuAction());
-        menuFiles->addAction(actionOpen);
-        menuFiles->addSeparator();
-        menuFiles->addAction(actionExit);
 
         retranslateUi(MainWindow);
         QObject::connect(newGameButton, SIGNAL(clicked()), openGLWidget, SLOT(newGame()));
@@ -112,7 +87,6 @@ public:
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
         newGameButton->setText(QApplication::translate("MainWindow", "New Game", 0));
         exitButton->setText(QApplication::translate("MainWindow", "Exit", 0));
-        menuFiles->setTitle(QApplication::translate("MainWindow", "File", 0));
     } // retranslateUi
 
 };

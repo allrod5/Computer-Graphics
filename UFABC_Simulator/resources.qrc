@@ -18,5 +18,8 @@
         <file>mountain.jpg</file>
         <file>ufabc.png</file>
         <file>image.png</file>
+        <file>grid.jpg</file>
+        <file>terrain.jpg</file>
+        <file>densegrid.jpg</file>
     </qresource>
 </RCC>

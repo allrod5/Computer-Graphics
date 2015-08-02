@@ -16,11 +16,15 @@ public:
 	~Object();
 
 	void loadObject(QString);
-	void drawObject(Camera, Light, float, float, float, float, QQuaternion);
+	void drawObject(Camera, Light, float, QQuaternion);
 	void updateAspectRatio(int, int);
 	//void constraintObject();
 	void moveObject(float, float, float);
 	void moveObject(Mouse&, const QPointF&);
+	void rotateObject(float);
+	void rotateObject(QQuaternion&);
+	void updateOrientation(Mouse&);
+	void mouseMove(Mouse&);
 
 	void calculateNormals();
 	void genTexCoordsCylinder();
@@ -62,6 +66,8 @@ private:
 	float relX;
 	float relY;
 	float relZ;
+
+	QQuaternion orientation;
 };
 
 #endif // OBJECT_H

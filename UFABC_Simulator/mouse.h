@@ -4,11 +4,12 @@
 #include <QVector3D>
 #include <QQuaternion>
 #include <QTime>
+#include <QWidget>
 
 #include <cmath>
 #include <math.h>
 
-class Mouse
+class Mouse : public QWidget
 {
 public:
 	Mouse();
@@ -26,6 +27,7 @@ public:
 	QVector3D lastPos3D;
 	QTime lastTime;
 	bool trackingMouse;
+	bool persistence;
 
 	double viewportWidth;
 	double viewportHeight;

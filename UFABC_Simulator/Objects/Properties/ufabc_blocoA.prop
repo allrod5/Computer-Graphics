@@ -8,6 +8,6 @@ shader 1
 
 material
 .ambient 1.0 1.0 1.0 1.0
-.diffuse 0.37 0.37 0.37 1.0
+.diffuse 0.47 0.47 0.47 1.0
 .specular 0.1 0.1 0.1 1.0
 .shininess 200.0

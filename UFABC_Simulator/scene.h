@@ -11,8 +11,8 @@ class Scene
 		Scene();
 		~Scene();
 
-		void drawScene(Camera, Light, float, float, float, float, QQuaternion);
-		void addObject(QString);
+		void drawScene(Camera, Light, float, QQuaternion);
+		unsigned int addObject(QString);
 		void updateAspectRatio(int, int);
 		Object& fetchObject(unsigned int);
 

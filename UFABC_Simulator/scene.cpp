@@ -12,17 +12,17 @@ Scene::~Scene()
 	delete [] object;
 }
 
-void Scene::drawScene(Camera camera, Light light, float zoom, float camX, float camY, float camZ, QQuaternion rotation)
+void Scene::drawScene(Camera camera, Light light, float zoom, QQuaternion rotation)
 {
 	for(unsigned int i=0; i<index; i++)
-		object[i].drawObject(camera, light, zoom, camX, camY, camZ, rotation);
+		object[i].drawObject(camera, light, zoom, rotation);
 }
 
-void Scene::addObject(QString name)
+unsigned int Scene::addObject(QString name)
 {
 	Object *obj = &object[index];
 	obj->loadObject(name);
-	index++;
+	return index++;
 }
 
 void Scene::updateAspectRatio(int w, int h)

@@ -4,7 +4,7 @@
 class Material
 {
 public :
-    Material () ;
+	Material () ;
     QVector4D ambient ;
     QVector4D diffuse ;
     QVector4D specular ;

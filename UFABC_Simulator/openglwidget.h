@@ -46,6 +46,8 @@ private :
     Light light;
 	Scene *scene;
 
+	unsigned int currentObject;
+
 public :
 	explicit OpenGLWidget(QWidget * parent = 0);
 	~OpenGLWidget();

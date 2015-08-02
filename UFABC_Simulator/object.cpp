@@ -16,7 +16,7 @@ Object::Object()
 	colorTexture = NULL;
 
 	currentShader = 4;
-	image = QImage(":/textures/image.png");
+	image = QImage(":/textures/densegrid.jpg");
 
 	relX = relY = relZ = 0.0;
 }
@@ -166,7 +166,7 @@ void Object::genTexCoordsCylinder()
 	}
 }
 
-void Object::drawObject(Camera camera, Light light, float zoom, float camX, float camY, float camZ, QQuaternion rotation)
+void Object::drawObject(Camera camera, Light light, float zoom, QQuaternion rotation)
 {
 	if(!vboVertices)
 		return;
@@ -174,8 +174,8 @@ void Object::drawObject(Camera camera, Light light, float zoom, float camX, floa
 	modelView.setToIdentity();
 	modelView.lookAt(rotation.rotatedVector(camera.eye)/zoom, camera.at, camera.up);
 	//modelView.translate(0, 0, zoom);
-	//modelView.translate(camX+relX, camY+relY, /*camZ+relZ*/ 0);
-	//modelView.rotate(rotation);
+	modelView.translate(relX, relY, relZ);
+	modelView.rotate(orientation);
 	modelView.scale(invDiag, invDiag, invDiag);
 	modelView.translate(-midPoint);
 	shaderProgram->bind();
@@ -238,7 +238,7 @@ void Object::updateAspectRatio(int w, int h)
 void Object::moveObject(float dx, float dy, float dz)
 {
 	relX += dx;
-	relY += dy;
+	//relY += dy;
 	relZ += dz;
 }
 
@@ -247,6 +247,32 @@ void Object::moveObject(Mouse &mouse, const QPointF &p)
 	QVector3D vec = mouse.mousePosTo3D(p);
 	relX += vec.x();
 	relZ += vec.y();
+}
+
+void Object::rotateObject(float angle)
+{
+	orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), angle) * orientation;
+}
+
+void Object::rotateObject(QQuaternion &rotation)
+{
+	orientation = rotation * orientation;
+}
+
+void Object::updateOrientation(Mouse &mouse)
+{
+	if (mouse.trackingMouse)
+		return;
+
+	QTime currentTime = QTime::currentTime();
+	mouse.angle = mouse.velocity * mouse.lastTime.msecsTo(currentTime);
+	orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), mouse.angle) * orientation;
+	return;
+}
+
+void Object::mouseMove(Mouse &mouse)
+{
+	orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), mouse.angle) * orientation;
 }
 
 void Object::createVBOs() {
