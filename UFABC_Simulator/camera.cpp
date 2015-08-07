@@ -11,6 +11,8 @@ Camera :: Camera () :  rad2deg(180.0 /3.1415)
 	lastHeight = 0.5;
 	minZoom = 0.5;
 	maxZoom = 2.0;
+	minHeight = 0.0;
+	maxHeight = 2.0;
 }
 
 void Camera::updateRotation(Mouse &mouse)
@@ -31,13 +33,13 @@ void Camera::mouseMove(Mouse &mouse)
 	if(moving) {
 
 		float newHeight = eye.y()+zoom*v->y();
-		/*if(newHeight>zoom)
-			newHeight = zoom;
-		float h = sqrt(1 - pow(newHeight,2));*/
+		if(newHeight>maxHeight)
+			newHeight = maxHeight;
+		else if(newHeight<minHeight)
+			newHeight = minHeight;
+
 
 		eye.setY(newHeight);
-
-		/*zoom *= h;*/
 
 		float s = sin(v->x()+lastAngle);
 		float c = cos(v->x()+lastAngle);
@@ -47,10 +49,28 @@ void Camera::mouseMove(Mouse &mouse)
 		eye.setX(at.x() + zoom*s);
 		eye.setZ(at.y() + zoom*c);
 
-
-		//std::cerr << new_angle << " vs. " << asin(s) << "\n";
-
 	}
+}
+
+void Camera::move(Mouse &mouse, const QPointF& p)
+{
+	/*if(p.x() <= 2) {
+		eye.setX(eye.x()-sin(lastAngle)*0.1);
+		at.setX(at.x()-sin(lastAngle)*0.1);
+		eye.setZ(eye.z()-cos(lastAngle)*0.1);
+		at.setZ(at.z()-cos(lastAngle)*0.1);
+	} else if(p.x() >= mouse.viewportWidth-2) {
+		eye.setX(eye.x()+sin(lastAngle)*0.1);
+		at.setX(at.x()+sin(lastAngle)*0.1);
+		eye.setZ(eye.z()+cos(lastAngle)*0.1);
+		at.setZ(at.z()+cos(lastAngle)*0.1);
+	}
+
+	if(p.y() <= 1) {
+
+	} else if(p.y() >= mouse.viewportHeight) {
+
+	}*/
 }
 
 void Camera::enableMovimentation(bool flag)

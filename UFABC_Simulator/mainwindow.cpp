@@ -6,6 +6,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+	this->showFullScreen();
+	setWindowFlags( Qt::FramelessWindowHint );
+	this->layout()->setContentsMargins(0,0,0,0);
 }
 
 MainWindow::~MainWindow()

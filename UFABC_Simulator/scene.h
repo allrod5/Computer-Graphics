@@ -10,6 +10,7 @@ class Scene
 		Scene();
 		~Scene();
 
+		bool isInitialized();
 		void drawScene(Camera, Light);
 		void addObject(QString, int, int);
 		void removeLastObject();

@@ -89,6 +89,8 @@ private:
 	float relY;
 	float relZ;
 
+	QPointF lastPoint;
+
 	QQuaternion orientation;
 	bool positionLock;
 	bool orientationLock;

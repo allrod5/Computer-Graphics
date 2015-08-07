@@ -24,6 +24,9 @@ Object::Object()
 
 	positionLock = false;
 	orientationLock = false;
+
+	lastPoint.setX(0);
+	lastPoint.setY(-1);
 }
 
 Object::~Object()
@@ -308,12 +311,13 @@ void Object::updateOrientation(Mouse &mouse, const QPointF &p)
 
 	QTime currentTime = QTime::currentTime();
 	QVector2D v1 = QVector2D(p.x()-mouse.viewportWidth/2, p.y()-mouse.viewportHeight/2);
-	QVector2D v2 = QVector2D(0,-1);
+	QVector2D v2 = QVector2D(lastPoint.x()-mouse.viewportWidth/2, lastPoint.y()-mouse.viewportHeight/2);
 	float angle = QVector2D::dotProduct(v1, v2)/(v1.length()*v2.length());
-	if(v1.y()<0)
-		orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), angle*2) * orientation;
-	else
-		orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,-1,0), angle*2) * orientation;
+	QVector3D axis = QVector3D::crossProduct(v1.toVector3D(), v2.toVector3D());
+	axis.setY(axis.z());
+	axis.setZ(0);
+	orientation = QQuaternion::fromAxisAndAngle(axis, angle) * orientation;
+	lastPoint = p;
 }
 
 void Object::mouseMove(Mouse &mouse, Camera &camera, const QPointF &p)

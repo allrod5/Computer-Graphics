@@ -20,6 +20,12 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0" colspan="2">
      <widget class="OpenGLWidget" name="openGLWidget">
@@ -31,20 +37,6 @@
       </property>
       <property name="focusPolicy">
        <enum>Qt::StrongFocus</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QPushButton" name="newGameButton">
-      <property name="text">
-       <string>New Game</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QPushButton" name="exitButton">
-      <property name="text">
-       <string>Exit</string>
       </property>
      </widget>
     </item>
@@ -75,38 +67,5 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>newGameButton</sender>
-   <signal>clicked()</signal>
-   <receiver>openGLWidget</receiver>
-   <slot>newGame()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>239</x>
-     <y>531</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>472</x>
-     <y>279</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>exitButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>706</x>
-     <y>531</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>472</x>
-     <y>287</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

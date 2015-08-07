@@ -16,7 +16,6 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
 #include "openglwidget.h"
 
@@ -30,8 +29,6 @@ public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     OpenGLWidget *openGLWidget;
-    QPushButton *newGameButton;
-    QPushButton *exitButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -49,6 +46,8 @@ public:
         actionExit->setObjectName(QStringLiteral("actionExit"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        sizePolicy.setHeightForWidth(centralWidget->sizePolicy().hasHeightForWidth());
+        centralWidget->setSizePolicy(sizePolicy);
         gridLayout = new QGridLayout(centralWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -61,21 +60,9 @@ public:
 
         gridLayout->addWidget(openGLWidget, 0, 0, 1, 2);
 
-        newGameButton = new QPushButton(centralWidget);
-        newGameButton->setObjectName(QStringLiteral("newGameButton"));
-
-        gridLayout->addWidget(newGameButton, 1, 0, 1, 1);
-
-        exitButton = new QPushButton(centralWidget);
-        exitButton->setObjectName(QStringLiteral("exitButton"));
-
-        gridLayout->addWidget(exitButton, 1, 1, 1, 1);
-
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
-        QObject::connect(newGameButton, SIGNAL(clicked()), openGLWidget, SLOT(newGame()));
-        QObject::connect(exitButton, SIGNAL(clicked()), MainWindow, SLOT(close()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -85,8 +72,6 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         actionOpen->setText(QApplication::translate("MainWindow", "Open", 0));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
-        newGameButton->setText(QApplication::translate("MainWindow", "New Game", 0));
-        exitButton->setText(QApplication::translate("MainWindow", "Exit", 0));
     } // retranslateUi
 
 };

@@ -11,6 +11,11 @@ Scene::~Scene()
 	//delete [] object;
 }
 
+bool Scene::isInitialized()
+{
+	return !objectList.isEmpty();
+}
+
 void Scene::drawScene(Camera camera, Light light)
 {
 	for(unsigned int i=0; i<objectList.size(); i++)
@@ -58,8 +63,6 @@ Object& Scene::fetchObject(unsigned int id)
 
 Object& Scene::fetchCurrentObject()
 {
-	if(objectList.isEmpty())
-		qWarning("Empty object list.");
 	return *objectList.last();
 }
 

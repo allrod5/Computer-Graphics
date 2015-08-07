@@ -44,6 +44,7 @@ private :
 
 	QString selectedObject;
 	unsigned int currentObject;
+	QWidget *mainWindow;
 
 public :
 	explicit OpenGLWidget(QWidget * parent = 0);

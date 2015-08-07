@@ -8,6 +8,10 @@ OpenGLWidget::OpenGLWidget(QWidget* parent): QOpenGLWidget(parent) {
 	camX = camY = camZ = 0;
 
 	scene = new Scene;
+
+	mainWindow = parent;
+	this->setMouseTracking(true);
+	//connect(this, SIGNAL(closeGame()), paren);
 }
 
 OpenGLWidget::~OpenGLWidget() {
@@ -48,9 +52,11 @@ void OpenGLWidget::animate() {
 
 void OpenGLWidget::mouseMoveEvent(QMouseEvent * event) {
 	mouse.mouseMove(event->localPos());
+	camera.move(mouse, event->localPos());
 	if(camera.isMoving())
 		camera.mouseMove(mouse);
-	scene->fetchCurrentObject().mouseMove(mouse, camera, event->localPos());
+	if(scene->isInitialized())
+		scene->fetchCurrentObject().mouseMove(mouse, camera, event->localPos());
 
 }
 
@@ -58,17 +64,19 @@ void OpenGLWidget::mousePressEvent(QMouseEvent * event) {
 	mouse.mousePress(event->localPos());
 	if(event->button()& Qt::LeftButton){
 		camera.updateRotation(mouse);
-		scene->fetchCurrentObject().mousePress();
+		if(scene->isInitialized())
+			scene->fetchCurrentObject().mousePress();
 	} else if(event->button()& Qt::RightButton) {
-		if(scene->isPlacingObject()) {
+		if(scene->isInitialized() && scene->isPlacingObject()) {
 			scene->removeLastObject();
 		} else {
 			scene->addObject(selectedObject, viewportWidth, viewportHeight);
 			mouse.persistence = true;
 			mouse.trackingMouse = true;
-			this->setMouseTracking(true);
+			//this->setMouseTracking(true);
 		}
-		scene->fetchCurrentObject().mouseMove(mouse, camera, event->localPos());
+		if(scene->isInitialized())
+			scene->fetchCurrentObject().mouseMove(mouse, camera, event->localPos());
 	} else if(event->button()& Qt::MiddleButton) {
 		camera.enableMovimentation(true);
 		//scene->fetchObject(currentObject).updateOrientation(mouse);
@@ -89,7 +97,8 @@ void OpenGLWidget::mouseReleaseEvent(QMouseEvent * event) {
 	mouse.mouseRelease(event->localPos());
 	if(event->button()== Qt::LeftButton) {
 		camera.updateRotation(mouse);
-		scene->fetchCurrentObject().mousePress();
+		if(scene->isInitialized())
+			scene->fetchCurrentObject().mousePress();
 	} else if(event->button()== Qt::MiddleButton) {
 		camera.enableMovimentation(false);
 		//scene->fetchCurrentObject().updateOrientation(mouse, event->localPos());
@@ -141,6 +150,11 @@ void OpenGLWidget::keyPressEvent(QKeyEvent * event) {
 		selectedObject = "";
 	else if(event->text()=="9")
 		selectedObject = "";
+	else if(event->text()==" ")
+		newGame();
+	else if(event->key()==Qt::Key_Escape)
+		mainWindow->parentWidget()->close();
+
 
 }
 

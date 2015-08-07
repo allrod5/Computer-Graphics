@@ -24,6 +24,7 @@ public :
 
 	void updateRotation(Mouse&);
 	void mouseMove(Mouse&);
+	void move(Mouse&, const QPointF&);
 	void enableMovimentation(bool);
 	bool isMoving();
 	void setZoom(double);
@@ -33,6 +34,8 @@ public :
 //private :
 	double maxZoom;
 	double minZoom;
+	double minHeight;
+	double maxHeight;
 	QQuaternion rotation;
 	bool moving;
 	double lastAngle;
