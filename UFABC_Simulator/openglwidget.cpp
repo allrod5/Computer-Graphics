@@ -65,7 +65,7 @@ void OpenGLWidget::mousePressEvent(QMouseEvent * event) {
 	if(event->button()& Qt::LeftButton){
 		camera.updateRotation(mouse);
 		if(scene->isInitialized())
-			scene->fetchCurrentObject().mousePress();
+			scene->fetchCurrentObject().mousePress(event->localPos());
 	} else if(event->button()& Qt::RightButton) {
 		if(scene->isInitialized() && scene->isPlacingObject()) {
 			scene->removeLastObject();
@@ -98,7 +98,7 @@ void OpenGLWidget::mouseReleaseEvent(QMouseEvent * event) {
 	if(event->button()== Qt::LeftButton) {
 		camera.updateRotation(mouse);
 		if(scene->isInitialized())
-			scene->fetchCurrentObject().mousePress();
+			scene->fetchCurrentObject().mousePress(event->localPos());
 	} else if(event->button()== Qt::MiddleButton) {
 		camera.enableMovimentation(false);
 		//scene->fetchCurrentObject().updateOrientation(mouse, event->localPos());

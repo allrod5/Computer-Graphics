@@ -310,8 +310,8 @@ void Object::updateOrientation(Mouse &mouse, const QPointF &p)
 		return;
 
 	QTime currentTime = QTime::currentTime();
-	QVector2D v1 = QVector2D(p.x()-mouse.viewportWidth/2, p.y()-mouse.viewportHeight/2);
-	QVector2D v2 = QVector2D(lastPoint.x()-mouse.viewportWidth/2, lastPoint.y()-mouse.viewportHeight/2);
+	QVector2D v1 = QVector2D(p.x()-lockPoint.x(), p.y()-lockPoint.y());
+	QVector2D v2 = QVector2D(lastPoint.x()-lockPoint.x(), lastPoint.y()-lockPoint.y());
 	float angle = QVector2D::dotProduct(v1, v2)/(v1.length()*v2.length());
 	QVector3D axis = QVector3D::crossProduct(v1.toVector3D(), v2.toVector3D());
 	axis.setY(axis.z());
@@ -334,9 +334,11 @@ int Object::lockState()
 	return (int)positionLock + (int)orientationLock;
 }
 
-void Object::mousePress() {
-	if(!positionLock)
+void Object::mousePress(const QPointF &p) {
+	if(!positionLock) {
 		positionLock = true;
+		lockPoint = p;
+	}
 	else if(!orientationLock)
 		orientationLock = true;
 }

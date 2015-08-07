@@ -45,7 +45,7 @@ public:
 	void updateOrientation(Mouse&, const QPointF&);
 	void mouseMove(Mouse&, Camera&, const QPointF&);
 
-	void mousePress();
+	void mousePress(const QPointF&);
 	int lockState();
 
 	void calculateNormals();
@@ -90,6 +90,7 @@ private:
 	float relZ;
 
 	QPointF lastPoint;
+	QPointF lockPoint;
 
 	QQuaternion orientation;
 	bool positionLock;
