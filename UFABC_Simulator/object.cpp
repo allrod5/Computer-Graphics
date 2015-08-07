@@ -15,8 +15,10 @@ Object::Object()
 	fragmentShader = NULL;
 	colorTexture = NULL;
 
+	texCoords = NULL;
+
 	currentShader = 4;
-	image = QImage(":/textures/densegrid.jpg");
+	//image = QImage(":/textures/terrain.jpg");
 
 	relX = relY = relZ = 0.0;
 
@@ -30,8 +32,16 @@ Object::~Object()
 	destroyShaders();
 }
 
+void Object::lockObject()
+{
+	positionLock = true;
+	orientationLock = true;
+}
+
 void Object::loadObject(QString objectName)
 {
+	image = QImage(":/textures/"+objectName+".jpg");
+
 	loadProperties(objectName);
 
 	QFile file(":/objects/models/"+objectName+".off");
@@ -160,31 +170,31 @@ void Object::calculateNormals()
 void Object::genTexCoordsCylinder()
 {
 	if(texCoords)
-		delete [] texCoords ;
+		delete [] texCoords;
+
 	// Compute minimum and maximum values
 	float fmax = std::numeric_limits<float>::max();
 	float minz = fmax ;
 	float maxz = - fmax ;
 	for(unsigned int i=0; i < numVertices ; ++ i) {
-		if(vertices[i]. z()< minz)minz = vertices[i]. z();
-		if(vertices[i]. z()> maxz)maxz = vertices[i]. z();
+		if(vertices[i]. y()< minz)minz = vertices[i]. y();
+		if(vertices[i]. y()> maxz)maxz = vertices[i]. y();
 	}
 	texCoords = new QVector2D[numVertices];
 	for(unsigned int i=0; i < numVertices ; ++ i) { // https :// en . wikipedia . org / wiki / Atan2
-		float s =(atan2(vertices[i].y(), vertices[i].x())+M_PI)/(2*M_PI);
-		float t = 1.0f -(vertices[i].z()- minz)/(maxz - minz);
+		float s =(atan2(vertices[i].z(), vertices[i].x())+M_PI)/(2*M_PI);
+		float t = 1.0f -(vertices[i].y()- minz)/(maxz - minz);
 		texCoords[i] = QVector2D(s,t);
 	}
 }
 
-void Object::drawObject(Camera camera, Light light, float zoom, QQuaternion rotation)
+void Object::drawObject(Camera camera, Light light)
 {
 	if(!vboVertices)
 		return;
 
 	modelView.setToIdentity();
-	modelView.lookAt(rotation.rotatedVector(camera.eye)/zoom, camera.at, camera.up);
-	//modelView.translate(0, 0, zoom);
+	modelView.lookAt(camera.eye, camera.at, camera.up);
 	modelView.translate(relX, relY, relZ);
 	modelView.rotate(orientation);
 	modelView.scale(invDiag, invDiag, invDiag);
@@ -222,6 +232,7 @@ void Object::drawObject(Camera camera, Light light, float zoom, QQuaternion rota
 	shaderProgram->setUniformValue("modelView", modelView);
 	shaderProgram->setUniformValue("normalMatrix", modelView.normalMatrix());
 	shaderProgram->setUniformValue("projectionMatrix",projectionMatrix);
+	shaderProgram->setUniformValue("variant",(int)orientationLock);
 
 	vboVertices->bind();
 	shaderProgram->enableAttributeArray("vPosition");
@@ -255,20 +266,32 @@ void Object::moveObject(float dx, float dy, float dz)
 	relZ += dz;
 }
 
-void Object::moveObject(Mouse &mouse, const QPointF &p)
+void Object::moveObject(Mouse &mouse, Camera &camera, const QPointF &p)
 {
 	if(positionLock)
 		return;
-	QVector3D vec = mouse.mousePosTo3D(p);
-	relX = -vec.y();
-	relZ = -vec.x();
+	QVector3D vec = mouse.vector;
+	//std::cerr << (camera.zoom-camera.minZoom)/(camera.maxZoom-camera.minZoom) << "\n";
+
+	double zoomFactorX = 2*(camera.zoom-camera.minZoom)/(camera.maxZoom-camera.minZoom)
+			+ (1-(camera.zoom-camera.minZoom)/(camera.maxZoom-camera.minZoom))*camera.lastHeight
+			* mouse.viewportWidth/(mouse.viewportHeight);
+	double zoomFactorZ = 2*(camera.zoom-camera.minZoom)/(camera.maxZoom-camera.minZoom)
+			+ (1-(camera.zoom-camera.minZoom)/(camera.maxZoom-camera.minZoom))*camera.lastHeight;
+
+	relX = (sin(-camera.lastAngle)*(1.0 - 2.0 * p.y() / mouse.viewportHeight)
+			+ cos(camera.lastAngle)*(2.0 * p.x() / mouse.viewportWidth - 1.0))
+			*zoomFactorX;
+	relZ = (-cos(-camera.lastAngle)*(1.0 - 2.0 * p.y() / mouse.viewportHeight)
+			- sin(camera.lastAngle)*(2.0 * p.x() / mouse.viewportWidth - 1.0))
+			*zoomFactorZ;
 }
 
-void Object::rotateObject(float angle)
+void Object::rotateObject(QVector3D axis, float angle)
 {
 	if(orientationLock)
 		return;
-	orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), angle) * orientation;
+	orientation = QQuaternion::fromAxisAndAngle(axis, angle) * orientation;
 }
 
 void Object::rotateObject(QQuaternion &rotation)
@@ -278,25 +301,33 @@ void Object::rotateObject(QQuaternion &rotation)
 	orientation = rotation * orientation;
 }
 
-void Object::updateOrientation(Mouse &mouse)
+void Object::updateOrientation(Mouse &mouse, const QPointF &p)
 {
-	if (orientationLock || mouse.trackingMouse)
+	if (orientationLock || !mouse.trackingMouse)
 		return;
 
 	QTime currentTime = QTime::currentTime();
-	mouse.angle = mouse.velocity * mouse.lastTime.msecsTo(currentTime);
-	orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), mouse.angle) * orientation;
-	return;
+	QVector2D v1 = QVector2D(p.x()-mouse.viewportWidth/2, p.y()-mouse.viewportHeight/2);
+	QVector2D v2 = QVector2D(0,-1);
+	float angle = QVector2D::dotProduct(v1, v2)/(v1.length()*v2.length());
+	if(v1.y()<0)
+		orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), angle*2) * orientation;
+	else
+		orientation = QQuaternion::fromAxisAndAngle(QVector3D(0,-1,0), angle*2) * orientation;
 }
 
-void Object::mouseMove(Mouse &mouse, const QPointF &p)
+void Object::mouseMove(Mouse &mouse, Camera &camera, const QPointF &p)
 {
 	if(!positionLock) {
-		moveObject(mouse, p);
+		moveObject(mouse, camera, p);
 	} else if (!orientationLock) {
-		QQuaternion rotation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), mouse.angle);
-		rotateObject(rotation);
+		updateOrientation(mouse, p);
 	}
+}
+
+int Object::lockState()
+{
+	return (int)positionLock + (int)orientationLock;
 }
 
 void Object::mousePress() {
@@ -380,13 +411,14 @@ void Object::createShaders()
 	destroyShaders();
 	// flat shading https :// www.packtpub.com / books / content / basics - glsl -40 - shaders
 	QString vertexShaderFile[] = {
-	   ":/shaders/flat_vshader.glsl",
-	   ":/shaders/gouraud_vshader.glsl",
-	   ":/shaders/phong_vshader.glsl",
-	   ":/shaders/cartoon_vshader.glsl",
-	   ":/shaders/texture_vshader.glsl",
-	   ":/shaders/normal_vshader.glsl",
-	   ":/shaders/blinn-phong_vshader.glsl"
+		":/shaders/flat_vshader.glsl",
+		":/shaders/gouraud_vshader.glsl",
+		":/shaders/phong_vshader.glsl",
+		":/shaders/cartoon_vshader.glsl",
+		":/shaders/texture_vshader.glsl",
+		":/shaders/normal_vshader.glsl",
+		":/shaders/blinn-phong_vshader.glsl",
+		":/shaders/building.vert"
 	};
 	QString fragmentShaderFile[] = {
 		":/shaders/flat_fshader.glsl",
@@ -395,7 +427,8 @@ void Object::createShaders()
 		":/shaders/cartoon_fshader.glsl",
 		":/shaders/texture_fshader.glsl",
 		":/shaders/normal_fshader.glsl",
-		":/shaders/blinn-phong_fshader.glsl"
+		":/shaders/blinn-phong_fshader.glsl",
+		":/shaders/building.frag"
 	};
 	vertexShader = new QOpenGLShader(QOpenGLShader::Vertex);
 	if(! vertexShader->compileSourceFile(vertexShaderFile[currentShader]))

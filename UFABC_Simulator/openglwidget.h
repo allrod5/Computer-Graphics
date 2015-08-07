@@ -12,7 +12,6 @@
 #include <limits>
 #include <iostream>
 
-#include "trackball.h"
 #include "camera.h"
 #include "light.h"
 #include "material.h"
@@ -31,7 +30,6 @@ QOpenGLFunctions
 	void keyPressEvent(QKeyEvent * event);
 
 	QTimer timer;
-	TrackBall trackBall;
 	Mouse mouse;
 
 protected :
@@ -44,6 +42,7 @@ private :
     Light light;
 	Scene *scene;
 
+	QString selectedObject;
 	unsigned int currentObject;
 
 public :
@@ -53,6 +52,9 @@ public :
     float angx, angy, angz, sc,tx, ty, tz;
     float zoom;
 	float camX, camY, camZ;
+
+	int viewportWidth;
+	int viewportHeight;
 
 
 signals :

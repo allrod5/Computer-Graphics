@@ -7,7 +7,7 @@ invDiag 0.5
 shader 4
 
 material
-.ambient 1.0 1.0 1.0 1.0
-.diffuse 0.7 0.7 0.7 1.0
-.specular 0.1 0.1 0.1 1.0
+.ambient 1.1 1.1 1.1 0.5
+.diffuse 0.6 0.6 0.6 1.0
+.specular 0.01 0.01 0.01 0.5
 .shininess 200.0

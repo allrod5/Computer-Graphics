@@ -7,6 +7,7 @@
 #include <QOpenGLBuffer>
 #include <QVector4D>
 #include <QVector3D>
+#include <QVector2D>
 #include <QOpenGLShader>
 
 #include <QtOpenGL>
@@ -17,6 +18,8 @@
 #include "mouse.h"
 
 #include "QFile"
+
+#include <iostream>
 
 class Object
 {
@@ -30,18 +33,20 @@ public:
 	Object();
 	~Object();
 
+	void lockObject();
 	void loadObject(QString);
-	void drawObject(Camera, Light, float, QQuaternion);
+	void drawObject(Camera, Light);
 	void updateAspectRatio(int, int);
 	//void constraintObject();
 	void moveObject(float, float, float);
-	void moveObject(Mouse&, const QPointF&);
-	void rotateObject(float);
+	void moveObject(Mouse&, Camera&, const QPointF&);
+	void rotateObject(QVector3D, float);
 	void rotateObject(QQuaternion&);
-	void updateOrientation(Mouse&);
-	void mouseMove(Mouse&, const QPointF&);
+	void updateOrientation(Mouse&, const QPointF&);
+	void mouseMove(Mouse&, Camera&, const QPointF&);
 
 	void mousePress();
+	int lockState();
 
 	void calculateNormals();
 	void genTexCoordsCylinder();

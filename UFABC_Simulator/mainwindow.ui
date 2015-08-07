@@ -70,6 +70,7 @@
    <slots>
     <signal>statusBarMessage(QString)</signal>
     <slot>newGame()</slot>
+    <slot>createBuilding(QListWidgetItem*)</slot>
    </slots>
   </customwidget>
  </customwidgets>

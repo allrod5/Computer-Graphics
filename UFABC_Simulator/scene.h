@@ -2,6 +2,7 @@
 #define SCENE_H
 
 #include "object.h"
+#include <vector>
 
 class Scene
 {
@@ -9,15 +10,19 @@ class Scene
 		Scene();
 		~Scene();
 
-		void drawScene(Camera, Light, float, QQuaternion);
-		unsigned int addObject(QString);
+		void drawScene(Camera, Light);
+		void addObject(QString, int, int);
+		void removeLastObject();
+		void addTerrain(QString, int, int);
+		void addAmbient(QString, int, int);
 		void updateAspectRatio(int, int);
 		Object& fetchObject(unsigned int);
+		Object& fetchCurrentObject();
+		bool isPlacingObject();
 
 	private:
 		unsigned int numObjects;
-		unsigned int index;
-		Object *object;
+		QList<Object*> objectList;
 };
 
 #endif // SCENE_H

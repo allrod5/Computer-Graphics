@@ -9,22 +9,22 @@
 #include <cmath>
 #include <math.h>
 
-#include <mouse.h>
+//#include <mouse.h>
 
-class Mouse;
+//class Mouse;
 
 class TrackBall
 {
 public:
     TrackBall();
 
-	void updateRotation(Mouse&);
-	void mouseMove(Mouse&);
+	/*void updateRotation(Mouse&);
+	void mouseMove(Mouse&);*/
 
 	QQuaternion rotation;
 
 private:
-	Mouse mouse;
+	//Mouse mouse;
 };
 
 #endif

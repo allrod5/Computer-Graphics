@@ -4,7 +4,7 @@ TrackBall::TrackBall()
 
 }
 
-void TrackBall::updateRotation(Mouse &mouse)
+/*void TrackBall::updateRotation(Mouse &mouse)
 {
 	if (mouse.trackingMouse)
 		return;
@@ -18,4 +18,4 @@ void TrackBall::updateRotation(Mouse &mouse)
 void TrackBall::mouseMove(Mouse &mouse)
 {
 	rotation = QQuaternion::fromAxisAndAngle(mouse.axis, mouse.angle) * rotation;
-}
+}*/

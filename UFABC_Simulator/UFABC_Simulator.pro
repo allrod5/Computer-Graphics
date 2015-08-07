@@ -15,7 +15,6 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     openglwidget.cpp \
-    trackball.cpp \
     camera.cpp \
     light.cpp \
     material.cpp \
@@ -25,7 +24,6 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     openglwidget.h \
-    trackball.h \
     camera.h \
     light.h \
     material.h \
@@ -47,7 +45,9 @@ DISTFILES += \
     blinn-phong_vshader.glsl \
     blinn-phong_fshader.glsl \
     texture_fshader.glsl \
-    texture_vshader.glsl
+    texture_vshader.glsl \
+    bulding.frag \
+    building.vert
 
 RESOURCES += \
     resources.qrc
